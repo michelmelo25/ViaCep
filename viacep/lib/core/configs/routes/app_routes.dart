@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:viacep/features/address_details/pages/address_details_page.dart';
 import 'package:viacep/features/home/pages/home_page.dart';
 
 class AppRoutes {
@@ -10,6 +11,8 @@ class AppRoutes {
   static List<ModularRoute> setUp() {
     return [
       ChildRoute(AppRoutes.main, child: (_, args) => HomePage()),
+      ChildRoute(AppRoutes.adressDetails,
+          child: (_, args) => AddressDetailsPage()),
     ];
   }
 }

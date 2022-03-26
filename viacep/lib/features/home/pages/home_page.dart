@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:viacep/core/configs/consts/app_strings.dart';
+import 'package:viacep/core/configs/device/device_info.dart';
+import 'package:viacep/core/configs/routes/app_routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController controllerCep = TextEditingController();
+  Deviceinfo deviceinfo = Deviceinfo();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildBody(BuildContext context) {
     return Container(
+      width: deviceinfo.width(context),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.blue, Colors.blue.shade200],
@@ -31,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Stack(
             children: [
@@ -43,9 +48,12 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           Container(
+            padding: EdgeInsets.symmetric(vertical: 20),
             child: Text("Via CEP"),
           ),
           Container(
+            width: deviceinfo.width(context) * 0.5,
+            alignment: Alignment.center,
             child: TextFormField(
               controller: controllerCep,
               decoration: InputDecoration(
@@ -55,6 +63,7 @@ class _HomePageState extends State<HomePage> {
                     clean();
                   },
                 ),
+                hintText: "Digite seu CEP",
               ),
               inputFormatters: [
                 MaskTextInputFormatter(
@@ -66,11 +75,22 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
+            width: deviceinfo.width(context) * 0.4,
+            height: 100,
+            padding: EdgeInsets.symmetric(vertical: 20),
             child: ElevatedButton(
               child: Text(AppStrings.consultar),
               onPressed: () {
                 action();
               },
+            ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                Text("Encontre Qualquer endereco do Brasil"),
+                Text("Exemplo: 8374-837"),
+              ],
             ),
           ),
         ],
@@ -80,6 +100,7 @@ class _HomePageState extends State<HomePage> {
 
   void action() {
     print(controllerCep.text.replaceAll("-", ""));
+    Modular.to.pushNamed(AppRoutes.adressDetails);
   }
 
   void clean() {
