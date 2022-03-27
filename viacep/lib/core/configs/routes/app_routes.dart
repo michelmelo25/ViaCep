@@ -10,9 +10,11 @@ class AppRoutes {
 
   static List<ModularRoute> setUp() {
     return [
-      ChildRoute(AppRoutes.main, child: (_, args) => HomePage()),
+      ChildRoute(AppRoutes.main, child: (_, args) => HomePage(Modular.get())),
       ChildRoute(AppRoutes.adressDetails,
-          child: (_, args) => AddressDetailsPage()),
+          child: (_, args) => AddressDetailsPage(
+                addressModel: args.data,
+              )),
     ];
   }
 }

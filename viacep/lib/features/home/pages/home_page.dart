@@ -4,9 +4,13 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:viacep/core/configs/consts/app_strings.dart';
 import 'package:viacep/core/configs/device/device_info.dart';
 import 'package:viacep/core/configs/routes/app_routes.dart';
+import 'package:viacep/core/error/failures.dart';
+import 'package:viacep/features/home/controllers/home_controller.dart';
+import 'package:viacep/shared/widgets/load_progress_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final HomeController controller;
+  const HomePage(this.controller, {Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -15,13 +19,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController controllerCep = TextEditingController();
   Deviceinfo deviceinfo = Deviceinfo();
+  bool load = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
       ),
-      body: buildBody(context),
+      body: (load) ? LoadProgressWidget() : buildBody(context),
     );
   }
 
@@ -98,9 +103,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void action() {
-    print(controllerCep.text.replaceAll("-", ""));
-    Modular.to.pushNamed(AppRoutes.adressDetails);
+  void action() async {
+    // print(controllerCep.text.replaceAll("-", ""));
+    setState(() {
+      load = true;
+    });
+    final response = await widget.controller
+        .searchAddresByCep(controllerCep.text.replaceAll("-", ""));
+    response.fold((failure) {
+      setState(() {
+        load = false;
+      });
+      messagerError(failure);
+    }, (address) {
+      setState(() {
+        load = false;
+      });
+      Modular.to.pushNamed(AppRoutes.adressDetails, arguments: address);
+    });
+    // Modular.to.pushNamed(AppRoutes.adressDetails);
   }
 
   void clean() {
@@ -108,4 +129,6 @@ class _HomePageState extends State<HomePage> {
       controllerCep.text = "";
     });
   }
+
+  void messagerError(Failure failure) {}
 }

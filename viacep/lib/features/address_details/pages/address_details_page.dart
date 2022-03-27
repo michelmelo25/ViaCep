@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+
 import 'package:viacep/core/configs/device/device_info.dart';
+import 'package:viacep/shared/models/address_model.dart';
 import 'package:viacep/shared/widgets/text_line_widget.dart';
 
 class AddressDetailsPage extends StatelessWidget {
-  const AddressDetailsPage({Key? key}) : super(key: key);
+  final AddressModel addressModel;
+  const AddressDetailsPage({
+    Key? key,
+    required this.addressModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +36,16 @@ class AddressDetailsPage extends StatelessWidget {
         child: Card(
           child: Column(
             children: [
-              TextLineWidget(title: "CEP", text: "63621-000"),
-              TextLineWidget(title: "Logradouro", text: ""),
-              TextLineWidget(title: "Complemento", text: ""),
-              TextLineWidget(title: "Bairro", text: "São José de Solonópole"),
-              TextLineWidget(title: "Localidade", text: "Solonópole"),
-              TextLineWidget(title: "UF", text: "CE"),
-              TextLineWidget(title: "DDD", text: "88"),
+              TextLineWidget(title: "CEP", text: addressModel.cep ?? ''),
+              TextLineWidget(
+                  title: "Logradouro", text: addressModel.logradouro ?? ''),
+              TextLineWidget(
+                  title: "Complemento", text: addressModel.complemento ?? ''),
+              TextLineWidget(title: "Bairro", text: addressModel.bairro ?? ''),
+              TextLineWidget(
+                  title: "Localidade", text: addressModel.localidade ?? ''),
+              TextLineWidget(title: "UF", text: addressModel.uf ?? ''),
+              TextLineWidget(title: "DDD", text: addressModel.ddd ?? ''),
               if (deviceinfo.isDeskTop(context))
                 ElevatedButton(
                     onPressed: () {
