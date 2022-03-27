@@ -20,6 +20,10 @@ class SerchbyCepWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: SelectableText("Descubra o endereço pelo CEP"),
+          ),
+          Container(
             width: deviceinfo.width(context) * 0.5,
             alignment: Alignment.center,
             color: Colors.white,
@@ -34,6 +38,7 @@ class SerchbyCepWidget extends StatelessWidget {
                 ),
                 hintText: "Digite seu CEP",
               ),
+              keyboardType: TextInputType.number,
               inputFormatters: [
                 MaskTextInputFormatter(
                   mask: "#####-###",
