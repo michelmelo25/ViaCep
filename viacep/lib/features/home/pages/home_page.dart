@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             width: deviceinfo.width(context) * 0.5,
             alignment: Alignment.center,
+            color: Colors.white,
             child: TextFormField(
               controller: controllerCep,
               decoration: InputDecoration(
@@ -77,6 +78,9 @@ class _HomePageState extends State<HomePage> {
                   type: MaskAutoCompletionType.lazy,
                 )
               ],
+              onFieldSubmitted: (text) {
+                action();
+              },
             ),
           ),
           Container(
@@ -93,8 +97,8 @@ class _HomePageState extends State<HomePage> {
           Container(
             child: Column(
               children: [
-                Text("Encontre Qualquer endereco do Brasil"),
-                Text("Exemplo: 8374-837"),
+                SelectableText("Encontre Qualquer endereco do Brasil"),
+                SelectableText("Exemplo: 8374-837"),
               ],
             ),
           ),

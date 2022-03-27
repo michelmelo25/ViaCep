@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viacep/core/configs/consts/app_styles.dart';
 
 class TextLineWidget extends StatelessWidget {
   final String title;
@@ -16,8 +17,14 @@ class TextLineWidget extends StatelessWidget {
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("$title: "),
-          Text(text),
+          SelectableText(
+            "$title: ",
+            style: AppStyles.titleAddress,
+          ),
+          SelectableText(
+            text,
+            style: AppStyles.infoAddress,
+          ),
         ],
       ),
     );

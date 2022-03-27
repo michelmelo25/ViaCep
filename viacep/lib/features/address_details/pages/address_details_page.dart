@@ -14,11 +14,14 @@ class AddressDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Deviceinfo deviceinfo = Deviceinfo();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Detalhes"),
-        centerTitle: true,
-      ),
+      appBar: deviceinfo.isMobile(context)
+          ? AppBar(
+              title: Text("Detalhes"),
+              centerTitle: true,
+            )
+          : null,
       body: buildBody(context),
       backgroundColor: Colors.lightBlueAccent,
     );
@@ -31,7 +34,7 @@ class AddressDetailsPage extends StatelessWidget {
       alignment: Alignment.center,
       padding: EdgeInsets.only(top: 10),
       child: Container(
-        width: deviceinfo.width(context) * 0.95,
+        width: 350,
         height: deviceinfo.height(context) * 0.5,
         child: Card(
           child: Column(
@@ -46,15 +49,27 @@ class AddressDetailsPage extends StatelessWidget {
                   title: "Localidade", text: addressModel.localidade ?? ''),
               TextLineWidget(title: "UF", text: addressModel.uf ?? ''),
               TextLineWidget(title: "DDD", text: addressModel.ddd ?? ''),
-              if (deviceinfo.isDeskTop(context))
-                ElevatedButton(
-                    onPressed: () {
-                      Modular.to.pop();
-                    },
-                    child: Text("Nova Cnsulta"))
+              if (deviceinfo.isDeskTopPlatform(context)) actionButon()
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget actionButon() {
+    return Expanded(
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        constraints: BoxConstraints(
+          maxHeight: 50,
+        ),
+        child: ElevatedButton(
+            onPressed: () {
+              Modular.to.pop();
+            },
+            child: Text("Nova Cnsulta")),
       ),
     );
   }
